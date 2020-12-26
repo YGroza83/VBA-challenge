@@ -1,73 +1,87 @@
 # VBA Homework - The VBA of Wall Street
 
-## Background
+#ScreenShots with results:
 
-You are well on your way to becoming a programmer and Excel master! In this homework assignment you will use VBA scripting to analyze real stock market data. Depending on your comfort level with VBA, you may choose to challenge yourself with a few of the challenge tasks.
+![stock Market](2014_Short_ScreenShot_WithBonus.png)
+![stock Market](2015_Short_ScreenShot_WithBonus.png)
+![stock Market](2016_Short_ScreenShot_WithBonus.png)
 
-### Before You Begin
+#VBA Script that produced that results:
 
-1. Create a new repository for this project called `VBA-challenge`. **Do not add this homework to an existing repository**.
-
-2. Inside the new repository that you just created, add any VBA files you use for this assignment. These will be the main scripts to run for each analysis.
-
-### Files
-
-* [Test Data](Resources/alphabetical_testing.xlsx) - Use this while developing your scripts.
-
-* [Stock Data](Resources/Multiple_year_stock_data.xlsx) - Run your scripts on this data to generate the final homework report.
-
-### Stock market analyst
-
-![stock Market](Images/stockmarket.jpg)
-
-## Instructions
-
-* Create a script that will loop through all the stocks for one year and output the following information.
-
-  * The ticker symbol.
-
-  * Yearly change from opening price at the beginning of a given year to the closing price at the end of that year.
-
-  * The percent change from opening price at the beginning of a given year to the closing price at the end of that year.
-
-  * The total stock volume of the stock.
-
-* You should also have conditional formatting that will highlight positive change in green and negative change in red.
-
-* The result should look as follows.
-
-![moderate_solution](Images/moderate_solution.png)
-
-## BONUS
-
-* Your solution will also be able to return the stock with the "Greatest % increase", "Greatest % decrease" and "Greatest total volume". The solution will look as follows:
-
-![hard_solution](Images/hard_solution.png)
-
-* Make the appropriate adjustments to your VBA script that will allow it to run on every worksheet, i.e., every year, just by running the VBA script once.
-
-## Other Considerations
-
-* Use the sheet `alphabetical_testing.xlsx` while developing your code. This data set is smaller and will allow you to test faster. Your code should run on this file in less than 3-5 minutes.
-
-* Make sure that the script acts the same on each sheet. The joy of VBA is to take the tediousness out of repetitive task and run over and over again with a click of the button.
-
-* Some assignments, like this one, contain a bonus. It is possible to achieve mastery on this assignment without completing the bonus. The bonus adds an opportunity to further develop you skills and be rewarded extra points for doing so.
-
-## Submission
-
-* To submit please upload the following to Github:
-
-  * A screen shot for each year of your results on the Multi Year Stock Data.
-
-  * VBA Scripts as separate files.
-
-* Ensure you commit regularly to your repository and it contains a README.md file.
-
-* After everything has been saved, create a sharable link and submit that to <https://bootcampspot-v2.com/>.
-
-- - -
-
-### Copyright
-
-Trilogy Education Services © 2020. All Rights Reserved.
+Sub LooppyLoop()
+    Application.ScreenUpdating = False 'Speed up - stop flicker (no Screen refresh)
+    tabCount = ActiveWorkbook.Worksheets.Count 'Getting number of tabs
+    
+    For i = 1 To tabCount   ' Begin the loop, running though differnt tabs
+        Sheets(i).Select
+        rowsCount = Cells(Rows.Count, 1).End(xlUp).Row 'Getting number of rows on current tab
+        ticker = ""
+        outputRow = 1
+        Range("K:K").NumberFormat = "0.00%"
+                
+        For j = 2 To rowsCount  'Runing down original table
+            If (Cells(j, 1) = ticker) Then  'Running with the same ticker
+                Cells(outputRow, 9) = Cells(j, 1)
+                runingTotal = runingTotal + Cells(j, 7)
+                Cells(outputRow, 12) = runingTotal
+                Cells(outputRow, 10) = Cells(j, 6) - newYear
+                If (Cells(outputRow, 10) > 0) Then
+                    Cells(outputRow, 10).Interior.ColorIndex = 10   'Green
+                End If
+                If (Cells(outputRow, 10) < 0) Then
+                    Cells(outputRow, 10).Interior.ColorIndex = 3    'Red
+                End If
+                If (newYear <> 0) Then  'Trying not to devide by zero
+                    Cells(outputRow, 11) = Cells(outputRow, 10) / newYear
+                End If
+                                
+            Else    'New ticker found
+                ticker = Cells(j, 1)
+                outputRow = outputRow + 1
+                runingTotal = 0
+                newYear = Cells(j, 3)
+            End If
+            
+            
+        'Headers for generated table
+        Range("I1") = "Ticker"
+        Range("J1") = "Yearly Change"
+        Range("K1") = "Percent Change"
+        Range("L1") = "Total Stock Volume"
+        Next j
+        Range("L1").EntireColumn.AutoFit
+        
+        'Bonus table Headers
+        Range("N2") = "Greatest % Increase"
+        Range("N3") = "Greatest % Decrease"
+        Range("N4") = "Greatest Total Volume"
+        Range("O1") = "TIcker"
+        Range("P1") = "Value"
+        Range("N4").EntireColumn.AutoFit
+        runingMax = 0
+        runingMin = 0
+        runingVolume = 0
+        Range("P2").NumberFormat = "0.00%"
+        Range("P3").NumberFormat = "0.00%"
+        For j = 2 To outputRow  'Running down results table to generate Bonus table
+            If (Cells(j, 11) > runingMax) Then
+                runingMax = Cells(j, 11)
+                Cells(2, 15) = Cells(j, 9)
+                Cells(2, 16) = runingMax
+            End If
+            If (Cells(j, 11) < runingMin) Then
+                runingMin = Cells(j, 11)
+                Cells(3, 15) = Cells(j, 9)
+                Cells(3, 16) = runingMin
+            End If
+            If (Cells(j, 12) > runingVolume) Then
+                runingVolume = Cells(j, 12)
+                Cells(4, 15) = Cells(j, 9)
+                Cells(4, 16) = runingVolume
+            End If
+        Next j
+    
+    Next i  'Next tab
+    
+    Application.ScreenUpdating = True 'Return screen updates back on
+End Sub
