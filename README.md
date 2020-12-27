@@ -1,13 +1,13 @@
 # VBA Homework - The VBA of Wall Street
 
-#ScreenShots with results:
+# ScreenShots with results (red/green colors adjusted to represent holidays it was done duaring :)
 
 ![stock Market](2014_Short_ScreenShot_WithBonus.png)
 ![stock Market](2015_Short_ScreenShot_WithBonus.png)
 ![stock Market](2016_Short_ScreenShot_WithBonus.png)
 
-#VBA Script that produced that results:
-
+# VBA Script that produced that results:
+'
 Sub LooppyLoop()
     Application.ScreenUpdating = False 'Speed up - stop flicker (no Screen refresh)
     tabCount = ActiveWorkbook.Worksheets.Count 'Getting number of tabs
@@ -38,7 +38,7 @@ Sub LooppyLoop()
             Else    'New ticker found
                 ticker = Cells(j, 1)
                 outputRow = outputRow + 1
-                runingTotal = 0
+                runingTotal = Cells(j, 7)    'Pesky bug that was hiding for 5 hours
                 newYear = Cells(j, 3)
             End If
             
@@ -85,3 +85,9 @@ Sub LooppyLoop()
     
     Application.ScreenUpdating = True 'Return screen updates back on
 End Sub
+'
+
+# ScreenShots with results (as long as excel will allow to save in one shot). If you need more - full results uploaded as .xlsm and .bas: 
+![stock Market](2014_Longer_ScreenShot.jpg)
+![stock Market](2015_Longer_ScreenShot.jpg)
+![stock Market](2016_Longer_ScreenShot.jpg)

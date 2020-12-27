@@ -29,7 +29,7 @@ Sub LooppyLoop()
             Else    'New ticker found
                 ticker = Cells(j, 1)
                 outputRow = outputRow + 1
-                runingTotal = 0
+                runingTotal = Cells(j, 7) 'Pesky bug, hard to notice
                 newYear = Cells(j, 3)
             End If
             
