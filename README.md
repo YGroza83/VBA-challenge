@@ -8,8 +8,9 @@
 
 # VBA Script that produced that results:
 
-'''VBA
-Sub LooppyLoop()
+'''
+
+    Sub LooppyLoop()
     Application.ScreenUpdating = False 'Speed up - stop flicker (no Screen refresh)
     tabCount = ActiveWorkbook.Worksheets.Count 'Getting number of tabs
     
@@ -85,7 +86,8 @@ Sub LooppyLoop()
     Next i  'Next tab
     
     Application.ScreenUpdating = True 'Return screen updates back on
-End Sub
+    End Sub
+
 '''
 
 # ScreenShots with results (as long as excel will allow to save in one shot). If you need more - full results uploaded as .xlsm and .bas: 
