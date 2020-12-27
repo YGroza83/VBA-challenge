@@ -1,13 +1,14 @@
 # VBA Homework - The VBA of Wall Street
 
-# ScreenShots with results (red/green colors adjusted to represent holidays it was done duaring :)
+# ScreenShots with results (red/green colors adjusted to represent holidays it was done during :)
 
 ![stock Market](2014_Short_ScreenShot_WithBonus.png)
 ![stock Market](2015_Short_ScreenShot_WithBonus.png)
 ![stock Market](2016_Short_ScreenShot_WithBonus.png)
 
 # VBA Script that produced that results:
-'
+
+'''VBA
 Sub LooppyLoop()
     Application.ScreenUpdating = False 'Speed up - stop flicker (no Screen refresh)
     tabCount = ActiveWorkbook.Worksheets.Count 'Getting number of tabs
@@ -85,7 +86,7 @@ Sub LooppyLoop()
     
     Application.ScreenUpdating = True 'Return screen updates back on
 End Sub
-'
+'''
 
 # ScreenShots with results (as long as excel will allow to save in one shot). If you need more - full results uploaded as .xlsm and .bas: 
 ![stock Market](2014_Longer_ScreenShot.jpg)
