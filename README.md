@@ -1,4 +1,4 @@
-# VBA Homework - The VBA of Wall Street
+# VBA  - The VBA of Wall Street
 
 # ScreenShots with results (red/green colors adjusted to represent holidays it was done during :)
 
